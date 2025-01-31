@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:32:24 by stempels          #+#    #+#             */
-/*   Updated: 2025/01/28 15:32:26 by stempels         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:39:50 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,16 @@ int	swap(t_elem *stack)
 	return (0);
 }
 
-int	push(t_elem *to_push, t_elem *pushed)
+void	push(t_elem *to_push, t_elem *push_to)
 {
 	t_elem	*temp;
 
 	if (!to_push)
-		return (-1);
+		return ;
 	temp = to_push;
 	to_push = temp->next;
-	temp->next = pushed;
-	pushed = temp;
-	return (0);
+	temp->next = push_to;
+	push_to = temp;
 }
 
 int	rotate(t_elem *stack)

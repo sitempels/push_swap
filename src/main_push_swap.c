@@ -6,25 +6,38 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:30:14 by stempels          #+#    #+#             */
-/*   Updated: 2025/01/28 15:38:34 by stempels         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:31:29 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "push_swap.h"
 
 int	main(int argc, char **argv)
 {
-	int	min;
-	int	max;
-	t_elem	*stack_a;
+	t_ctrl	ctrl;
+	t_elem	*ptr;
 
+	init_struct(NULL, NULL, &ctrl);
 	if (argc < 2)
-		return (error_handler(ER_01));
+	{
+		error_handler(NULL);
+		return (-1);
+	}
 	else if (argc == 2)
-		stack_a = parse_str(argv[1], &min, &max);
+		parse_str(&ctrl, argv[1]);
 	else
-		stack_a = parse_arg(argc, argv, &min, &max);
-	if (!stack_a)
-		return (/*ERROR*/);
-	return (push_swap(stack_a, min, max));
+		parse_arg(&ctrl, argc, argv);
+	if (ctrl.error == -1)
+	{
+		write(1, "Error !", 7);
+		return (-1);
+	}
+	ptr = ctrl.stack_a;
+	while (ptr)
+	{
+		ft_printf_fd(1, "%d\n", ptr->elem);
+		ptr = ptr->next;
+	}
+	return (0);
 }

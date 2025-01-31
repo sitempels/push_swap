@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:31:58 by stempels          #+#    #+#             */
-/*   Updated: 2025/01/28 15:49:32 by stempels         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:30:33 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ t_elem	*sw_new(int a)
 	return (new);
 }
 
-void	sw_lstadd_back(t_elem **lst, t_elem *new)
+void	sw_lstadd_back(t_elem *lst, t_elem **new)
 {
 	t_elem	*temp;
 
-	temp = sw_lstlast(*lst);
+	temp = sw_lstlast(lst);
 	if (!temp)
-		*lst = new;
+		lst = *new;
 	else
-		temp -> next = new;
+		temp->next = *new;
 }
 
 t_elem	*sw_lstlast(t_elem *lst)
@@ -42,7 +42,7 @@ t_elem	*sw_lstlast(t_elem *lst)
 	if (!lst)
 		return (NULL);
 	temp = lst;
-	while (temp -> next)
-		temp = temp -> next;
+	while (temp->next)
+		temp = temp->next;
 	return (temp);
 }
