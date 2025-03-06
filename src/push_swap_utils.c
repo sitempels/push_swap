@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:32:37 by stempels          #+#    #+#             */
-/*   Updated: 2025/01/31 15:52:24 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:53:59 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	is_sorted(int sens, t_elem *stack)
 	t_elem	*origin;
 
 	origin = stack;
+	if (!stack)
+		return (1);
 	ptr = stack->next;
 	while (ptr)
 	{

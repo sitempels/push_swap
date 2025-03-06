@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:30:14 by stempels          #+#    #+#             */
-/*   Updated: 2025/01/31 16:31:29 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/06 12:08:53 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int argc, char **argv)
 {
 	t_ctrl	ctrl;
 	t_elem	*ptr;
+	t_elem	*ptr1;
 
 	init_struct(NULL, NULL, &ctrl);
 	if (argc < 2)
@@ -29,15 +30,26 @@ int	main(int argc, char **argv)
 	else
 		parse_arg(&ctrl, argc, argv);
 	if (ctrl.error == -1)
+		return (write(1, "Error !", 7));
+	ptr1 = ctrl.stack_a;
+	while (ptr1)
 	{
-		write(1, "Error !", 7);
-		return (-1);
+		ft_printf_fd(1, "%d\n", ptr1->elem);
+		ptr1 = ptr1->next;
 	}
-	ptr = ctrl.stack_a;
+	write(1, "-------------------\n", 21);
+	ptr = ft_push_swap(&ctrl, ctrl.stack_a, ctrl.stack_b);
 	while (ptr)
 	{
 		ft_printf_fd(1, "%d\n", ptr->elem);
 		ptr = ptr->next;
+	}
+	write(1, "-------------------\n", 21);
+	ptr1 = ctrl.stack_a;
+	while (ptr1)
+	{
+		ft_printf_fd(1, "%d\n", ptr1->elem);
+		ptr1 = ptr1->next;
 	}
 	return (0);
 }

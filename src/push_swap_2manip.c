@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:31:38 by stempels          #+#    #+#             */
-/*   Updated: 2025/01/28 15:31:45 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:02:58 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ int	ss(t_elem *stack_a, t_elem *stack_b)
 {
 	if (stack_a->next && stack_b->next)
 	{
-		swap(stack_a);
-		swap(stack_b);
+		swap(&stack_a);
+		swap(&stack_b);
 		return (0);
 	}
 	else if (stack_a->next && !stack_b->next)
 	{
-		swap(stack_a);
+		swap(&stack_a);
 		return (1);
 	}
 	else if (!stack_a->next && stack_b->next)
 	{
-		swap(stack_b);
+		swap(&stack_b);
 		return (1);
 	}
 	else
