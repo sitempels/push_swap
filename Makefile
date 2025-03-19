@@ -6,7 +6,7 @@
 #    By: stempels <stempels@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/14 10:47:36 by stempels          #+#    #+#              #
-#    Updated: 2025/03/06 10:03:47 by stempels         ###   ########.fr        #
+#    Updated: 2025/03/19 13:46:35 by stempels         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -24,7 +24,7 @@ CPPFLAGS = $(INC_FLAG)
 #----------------------------MAIN----------------------------------------------#
 #----------------------------SRC-----------------------------------------------#
 SRC_DIR = src
-SRC = $(addprefix src/, $(addsuffix .c, main_push_swap push_swap push_swap_manip push_swap_lst push_swap_utils)) 
+SRC = $(addprefix src/, $(addsuffix .c, main_push_swap push_swap push_swap_utils push_swap_utils2 manip_push manip_swap manip_rotate manip_rrotate)) 
 #
 #----------------------------OBJ-----------------------------------------------#
 OBJ_DIR = obj
@@ -71,7 +71,6 @@ ffclean: fclean libclean
 re: ffclean all
 #
 .PHONY: all clean libclean fclean ffclean re design
-#
 #----------------------------TEXT----------------------------------------------#
 GREEN=\033[0;32m
 NC=\033[0m

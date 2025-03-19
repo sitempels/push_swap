@@ -1,30 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   manip_swap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:57:19 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/18 18:26:26 by stempels         ###   ########.fr       */
+/*   Created: 2025/03/18 16:53:36 by stempels          #+#    #+#             */
+/*   Updated: 2025/03/18 17:31:20 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(int))
+static void	swap(t_list **stack)
 {
 	t_list	*temp;
-	t_list	*current;
+	t_list	*new;
 
-	if (!lst || !del)
+	temp = *stack;
+	if (!temp || ! temp->next)
 		return ;
-	current = *lst;
-	while (current)
-	{
-		temp = current;
-		current = current -> next;
-		ft_lstdelone(temp, del);
-	}
-	*lst = NULL;
+	new = temp->next;
+	temp->next = new->next;
+	new->next = temp;
+	*stack = new;
+}
+
+void	sa(t_list **stack)
+{
+	swap(stack);
+	write(1, "sa\n", 3);
+}
+
+void	sb(t_list **stack)
+{
+	swap(stack);
+	write(1, "sb\n", 3);
+}
+
+void	ss(t_list **stack_a, t_list **stack_b)
+{
+	swap(stack_a);
+	swap(stack_b);
+	write(1, "ss\n", 3);
 }

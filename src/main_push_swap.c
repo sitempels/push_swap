@@ -5,51 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 15:30:14 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/06 12:08:53 by stempels         ###   ########.fr       */
+/*   Created: 2025/03/17 14:21:21 by stempels          #+#    #+#             */
+/*   Updated: 2025/03/19 17:23:08 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdio.h>
 #include "push_swap.h"
+
+static t_list	*parse_arg(int argc, char **argv);
+static t_list	*parse_str(int argc, char **argv);
 
 int	main(int argc, char **argv)
 {
-	t_ctrl	ctrl;
-	t_elem	*ptr;
-	t_elem	*ptr1;
+	t_list	*stack_a;
 
-	init_struct(NULL, NULL, &ctrl);
 	if (argc < 2)
+		return (0);
+	if (argc == 2)
+		stack_a = parse_str(argc, argv);
+	if (argc > 2)
+		stack_a = parse_arg(argc, argv);
+	if (!stack_a)
+		return (0);
+	if (!arg_valid(stack_a))
 	{
-		error_handler(NULL);
-		return (-1);
+		
 	}
-	else if (argc == 2)
-		parse_str(&ctrl, argv[1]);
-	else
-		parse_arg(&ctrl, argc, argv);
-	if (ctrl.error == -1)
-		return (write(1, "Error !", 7));
-	ptr1 = ctrl.stack_a;
-	while (ptr1)
+	push_swap(&stack_a);
+	lst_free(&stack_a);
+	return (1);
+}
+
+static t_list	*parse_str(int argc, char **argv)
+{
+	int		i;
+	char	**array;
+	t_list	*new;
+	t_list	*stack_a;
+
+	stack_a = NULL;
+	array = ft_split(argv[argc - 1], ' ');
+	i = 0;
+	while (array[i])
 	{
-		ft_printf_fd(1, "%d\n", ptr1->elem);
-		ptr1 = ptr1->next;
+		new = ft_lstnew(ft_atoi(array[i]));
+		if (!new)
+			return (NULL);
+		ft_lstadd_back(&stack_a, new);
+		i++;
 	}
-	write(1, "-------------------\n", 21);
-	ptr = ft_push_swap(&ctrl, ctrl.stack_a, ctrl.stack_b);
-	while (ptr)
+	arr_free(array);
+	return (stack_a);
+}
+
+static t_list	*parse_arg(int argc, char **argv)
+{
+	int		i;
+	t_list	*new;
+	t_list	*stack_a;
+
+	stack_a = NULL;
+	i = 1;
+	while (i < argc)
 	{
-		ft_printf_fd(1, "%d\n", ptr->elem);
-		ptr = ptr->next;
+		new = ft_lstnew(ft_atoi(argv[i]));
+		if (!new)
+			return (NULL);
+		ft_lstadd_back(&stack_a, new);
+		i++;
 	}
-	write(1, "-------------------\n", 21);
-	ptr1 = ctrl.stack_a;
-	while (ptr1)
+	return (stack_a);
+}
+
+int	check_arg(int argc, char **argv)
+{
+	int	i;
+
+	if (argc < 2)
+		return (0);
+	if (argc == 2)
 	{
-		ft_printf_fd(1, "%d\n", ptr1->elem);
-		ptr1 = ptr1->next;
+		i = 1;
+		while (i < argc)
+		{
+			if (ft_atoi(argv[i]) > INT_MAX)
+		}
 	}
-	return (0);
+	
 }

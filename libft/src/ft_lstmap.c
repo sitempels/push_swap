@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 18:24:48 by stempels          #+#    #+#             */
-/*   Updated: 2024/11/04 11:53:16 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:28:32 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_list	*ft_lstmap(t_list *lst, void *(*f)(int), void (*del)(int))
 {
 	t_list	*new_node;
 	t_list	*new_lst;
-	void	*new_content;
+	int	new_content;
 
 	if (!lst)
 		return (NULL);

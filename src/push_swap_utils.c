@@ -5,68 +5,116 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 15:32:37 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/03 12:53:59 by stempels         ###   ########.fr       */
+/*   Created: 2025/03/17 17:16:45 by stempels          #+#    #+#             */
+/*   Updated: 2025/03/19 12:15:56 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "push_swap.h"
 
-t_elem	*error_handler(char *fault)
+int	get_lststart(t_list **stack, char sens)
 {
-	write(1, "Error !", 7);
-	if (fault)
+	int		lst_start;
+	t_list	*ptr;
+
+	ptr = (*stack);
+	if (sens == '+')
+		lst_start = INT_MAX;
+	if (sens == '-')
+		lst_start = INT_MIN;
+	while (sens == '+' && ptr)
 	{
-		free(fault);
-		fault = NULL;
+		if (ptr->content < lst_start)
+			lst_start = ptr->content;
+		ptr = ptr->next;
 	}
-	return (NULL);
+	while (sens == '-' && ptr)
+	{
+		if (ptr->content > lst_start)
+			lst_start = ptr->content;
+		ptr = ptr->next;
+	}
+	return (lst_start);
 }
 
-void	init_struct(t_elem *stack, t_ope *act, t_ctrl *ctrl)
+int	check_spike(t_list **stack, char sens)
 {
-	if (stack)
+	int		spike;
+	t_list	*ptr;
+
+	ptr = (*stack);
+	spike = 0;
+	while (sens == '+' && ptr->next)
 	{
-		stack->elem = 0;
-		stack->next = NULL;
+		if (ptr->content > (ptr->next)->content)
+			spike++;
+		ptr = ptr->next;
 	}
-	if (act)
+	if (sens == '+' && ptr->content > (*stack)->content)
+		spike++;
+	while (sens == '-' && ptr->next)
 	{
-		act->name = NULL;
-		act->ope = NULL;
-		act->next = NULL;
-		act->previous = NULL;
+		if (ptr->content < (ptr->next)->content)
+			spike++;
+		ptr = ptr->next;
 	}
-	if (ctrl)
-	{
-		ctrl->error = 1;
-		ctrl->min = INT_MAX;
-		ctrl->max = INT_MIN;
-		ctrl->stack_a = NULL;
-		ctrl->stack_b = NULL;
-		ctrl->act = NULL;
-	}
+	if (sens == '-' && ptr->content < (*stack)->content)
+		spike++;
+	return (spike);
 }
 
-int	is_sorted(int sens, t_elem *stack)
+int	node_pos(t_list **stack, int content)
 {
-	t_elem	*ptr;
-	t_elem	*origin;
+	int		pos;
+	int		lst_size;
+	t_list	*ptr;
 
-	origin = stack;
-	if (!stack)
-		return (1);
-	ptr = stack->next;
+	if (!*stack)
+		return (0);
+	pos = 0;
+	ptr = (*stack);
 	while (ptr)
 	{
-		if (sens == '+' && ptr->elem <= stack->elem)
-			return (0);
-		if (sens == '-' && ptr->elem >= stack->elem)
-			return (0);
+		pos++;
+		if (ptr->content == content)
+			break ;
 		ptr = ptr->next;
-		stack = stack->next;
 	}
-	stack = origin;
-	return (1);
+	lst_size = ft_lstsize(*stack);
+	if (pos > ((lst_size / 2) + (lst_size % 2)))
+		pos = (lst_size - pos) * (-1);
+	return (pos - 1);
+}
+
+void	move_first(t_list **stack_a, int pos_a, t_list **stack_b, int pos_b)
+{
+	while ((pos_a > 0 && pos_b > 0) && (*stack_a && *stack_b))
+	{
+		rr(stack_a, stack_b, 1);
+		pos_a--;
+		pos_b--;
+	}
+	while ((pos_a < 0 && pos_b < 0) && (*stack_a && *stack_b))
+	{
+		rrr(stack_a, stack_b, 1);
+		pos_a++;
+		pos_b++;
+	}
+	if (pos_a > 0 && *stack_a)
+		ra(stack_a, pos_a);
+	if (pos_a < 0 && *stack_a)
+		rra(stack_a, -1 * pos_a);
+	if (pos_b > 0 && *stack_b)
+		rb(stack_b, pos_b);
+	if (pos_b < 0 && *stack_b)
+		rrb(stack_b, -1 * pos_b);
+}
+
+int	is_sorted(t_list **stack, char sens)
+{
+	if (check_spike(stack, sens) != 1)
+		return (0);
+	if ((*stack)->content == get_lststart(stack, sens))
+		return (1);
+	return (0);
 }
