@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:40:54 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/19 16:06:08 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:02:47 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	lst_free(t_list **lst)
 	t_list	*ptr1;
 	t_list	*ptr2;
 
-	ptr2 = (*lst)->next;
+	if ((*lst) && (*lst)->next)
+		ptr2 = (*lst)->next;
+	else
+		ptr2 = NULL;
 	free(*lst);
 	while (ptr2)
 	{
@@ -26,6 +29,7 @@ void	lst_free(t_list **lst)
 		free(ptr1);
 	}
 	lst = NULL;
+	return ;
 }
 
 void	arr_free(char **array)
@@ -40,6 +44,7 @@ void	arr_free(char **array)
 	}
 	free(array);
 	array = NULL;
+	return ;
 }
 
 t_list	*lst_select(t_list **stack, int	content)

@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:09:18 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/18 18:25:59 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:12:10 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ typedef struct s_ctrl
 	int	cost_a;
 	int	cost_b;
 	int	cost;
+	int	lst_min;
+	int	lst_max;
 }	t_ctrl;
 /**/
 /*--------------------------LIBC_FUNCTIONS------------------------------------*/
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
+int		ft_isspace(char c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
 size_t	ft_strlen(const char *s);
