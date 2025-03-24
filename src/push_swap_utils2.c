@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:40:54 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/20 17:02:47 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:00:08 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	lst_free(t_list **lst)
 {
-	t_list	*ptr1;
 	t_list	*ptr2;
 
 	if ((*lst) && (*lst)->next)
@@ -24,10 +23,11 @@ void	lst_free(t_list **lst)
 	free(*lst);
 	while (ptr2)
 	{
-		ptr1 = ptr2;
+		(*lst) = ptr2;
 		ptr2 = ptr2->next;
-		free(ptr1);
+		free(*lst);
 	}
+	*lst = NULL;
 	lst = NULL;
 	return ;
 }
@@ -47,7 +47,7 @@ void	arr_free(char **array)
 	return ;
 }
 
-t_list	*lst_select(t_list **stack, int	content)
+t_list	*lst_select(t_list **stack, int content)
 {
 	t_list	*ptr;
 
@@ -59,4 +59,36 @@ t_list	*lst_select(t_list **stack, int	content)
 		ptr = ptr->next;
 	}
 	return (ptr);
+}
+
+void	free_on_close(t_list **lst, char **array, int error)
+{
+	if (*lst)
+		lst_free(lst);
+	if (array)
+		arr_free(array);
+	if (error == 1)
+		write(1, "Error\n", 6);
+}
+
+void	calc_cost(t_ctrl *ctrl, int a, int b)
+{
+	int	c;
+
+	c = INT_MAX;
+	if ((a <= 0 && b <= 0) || (a >= 0 && b >= 0))
+	{
+		if (ft_abs(a) > ft_abs(b))
+			c = ft_abs(a);
+		if (ft_abs(a) < ft_abs(b))
+			c = ft_abs(b);
+	}
+	if ((a < 0 && b > 0) || (a > 0 && b < 0))
+		c = ft_abs(ft_abs(a) + ft_abs(b));
+	if (c < ctrl->cost)
+	{
+		ctrl->cost = c;
+		ctrl->cost_a = a;
+		ctrl->cost_b = b;
+	}
 }

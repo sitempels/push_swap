@@ -6,7 +6,7 @@
 #    By: stempels <stempels@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/14 10:47:36 by stempels          #+#    #+#              #
-#    Updated: 2025/03/20 16:12:40 by stempels         ###   ########.fr        #
+#    Updated: 2025/03/24 15:04:47 by stempels         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ MAKEFLAGS += --silent
 #---------------------------------COMPILER-------------------------------------#
 CC = cc
 CPPFLAGS = $(INC_FLAG)
-CCFLAGS = -Wall -Wextra -Werror
+CCFLAGS = -Wall -Wextra -Werror -g
 
 #-----------------------------------SRC----------------------------------------#
 SRC_DIR = src

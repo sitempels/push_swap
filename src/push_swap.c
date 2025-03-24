@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:18:53 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/20 11:50:40 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:58:12 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	sort_3(t_list **stack, int size);
 static void	sort_else(t_list **stack_a, t_list **stack_b, int size_a);
 static void	get_node(t_ctrl *ctrl, t_list **stack_a, t_list **stack_b);
 static int	get_node_a(t_list **stack_a, int value_b);
-static void	calc_cost(t_ctrl *ctrl, int a, int b);
 
 void	push_swap(t_list **stack_a)
 {
@@ -76,12 +75,6 @@ static void	sort_else(t_list **stack_a, t_list **stack_b, int size_a)
 	{
 		get_node(&ctrl, stack_a, stack_b);
 		move_first(stack_a, ctrl.cost_a, stack_b, ctrl.cost_b);
-/*		if ((*stack_b)->content > get_lststart(stack_a, '-'))
-		{
-			pa(stack_a, stack_b, 1);
-			ra(stack_a, 1);
-		}
-		else*/
 		pa(stack_a, stack_b, 1);
 	}
 }
@@ -93,6 +86,7 @@ static void	get_node(t_ctrl *ctrl, t_list **stack_a, t_list **stack_b)
 	t_list	*ptr_b;
 
 	ctrl->cost = INT_MAX;
+	ctrl->cost_a = INT_MAX;
 	ctrl->cost_b = INT_MAX;
 	ctrl->lst_min = get_lststart(stack_a, '+');
 	ctrl->lst_max = get_lststart(stack_a, '-');
@@ -113,7 +107,7 @@ static void	get_node(t_ctrl *ctrl, t_list **stack_a, t_list **stack_b)
 
 static int	get_node_a(t_list **stack_a, int value_b)
 {
-	int	cost_a;
+	int		cost_a;
 	t_list	*ptr_a;
 
 	cost_a = INT_MAX;
@@ -133,25 +127,4 @@ static int	get_node_a(t_list **stack_a, int value_b)
 		}
 	}
 	return (cost_a);
-}
-
-static void	calc_cost(t_ctrl *ctrl, int a, int b)
-{
-	int	c;
-
-	if ((a <= 0 && b <= 0) || (a >= 0 && b >= 0))
-	{
-		if (ft_abs(a) > ft_abs(b))
-			c = ft_abs(a);
-		if (ft_abs(a) < ft_abs(b))
-			c = ft_abs(b);
-	}
-	if ((a < 0 && b > 0) || (a > 0 && b < 0))
-		c = ft_abs(ft_abs(a) + ft_abs(b));
-	if (c < ctrl->cost)
-	{
-		ctrl->cost = c;
-		ctrl->cost_a = a;
-		ctrl->cost_b = b;
-	}
 }

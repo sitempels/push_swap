@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 18:24:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/18 18:28:32 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:19:33 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(int), void (*del)(int))
 {
 	t_list	*new_node;
 	t_list	*new_lst;
-	int	new_content;
+	int		new_content;
 
 	if (!lst)
 		return (NULL);
