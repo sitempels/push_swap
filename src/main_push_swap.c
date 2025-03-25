@@ -6,18 +6,17 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:21:21 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/25 17:12:39 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:37:34 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
 
-//static char	**parse_arg(char **argv);
 static void	parse_str(t_list **stack_a, char **argv);
+static void	check_str(char **array, t_list **stack_a);
 static int	check_arg(int argc, char **argv);
 static int	check_dupli(t_list *stack_a, int content);
-//static char	*push_swap_join(char *s1, char *s2);
 
 int	main(int argc, char **argv)
 {
@@ -42,36 +41,42 @@ int	main(int argc, char **argv)
 
 static void	parse_str(t_list **stack_a, char **argv)
 {
-	int		i;
 	int		j;
-	int		content;
 	char	**array;
-	t_list	*new;
 
 	(*stack_a) = NULL;
 	j = 1;
 	while (argv[j])
 	{
 		array = ft_split(argv[j], ' ');
-		i = 0;
-		while (array[i])
-		{
-			content = ft_atoi(array[i]);
-			if ((content == -1 && array[i][0] != '-') ||
-				(content == 0 && array[i][0] != '0'))
-				return (free_on_close(stack_a, array, 0));
-			if (!check_dupli(*stack_a, content))
-				return (free_on_close(stack_a, array, 0));
-			new = ft_lstnew(ft_atoi(array[i]));
-			if (!new)
-				return (free_on_close(stack_a, array, 0));
-			ft_lstadd_back(stack_a, new);
-			i++;
-		}
+		check_str(array, stack_a);
 		arr_free(array);
 		j++;
 	}
 	return ;
+}
+
+static void	check_str(char **array, t_list **stack_a)
+{
+	int		i;
+	int		content;
+	t_list	*new;
+
+	i = 0;
+	while (array[i])
+	{
+		content = ft_atoi(array[i]);
+		if ((content == -1 && array[i][0] != '-') ||
+			(content == 0 && array[i][0] != '0'))
+			return (free_on_close(stack_a, array, 0));
+		if (!check_dupli(*stack_a, content))
+			return (free_on_close(stack_a, array, 0));
+		new = ft_lstnew(ft_atoi(array[i]));
+		if (!new)
+			return (free_on_close(stack_a, array, 0));
+		ft_lstadd_back(stack_a, new);
+		i++;
+	}
 }
 
 static int	check_arg(int argc, char **argv)
