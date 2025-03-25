@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:23 by stempels          #+#    #+#             */
-/*   Updated: 2024/11/05 14:25:06 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:06:00 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1 && !s2)
 		return (NULL);
+	if (!s1)
+		return ((char *)s2);
 	lens1 = ft_strlen(s1);
 	lens2 = ft_strlen(s2);
 	s3 = (char *) malloc (sizeof(char) * (lens1 + lens2 + 1));

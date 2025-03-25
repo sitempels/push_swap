@@ -6,104 +6,70 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:21:21 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/24 15:54:01 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:12:39 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
 
-static void	parse_arg(t_list **stack_a, int argc, char **argv);
-static void	parse_str(t_list **stack_a, int argc, char **argv);
+//static char	**parse_arg(char **argv);
+static void	parse_str(t_list **stack_a, char **argv);
 static int	check_arg(int argc, char **argv);
 static int	check_dupli(t_list *stack_a, int content);
+//static char	*push_swap_join(char *s1, char *s2);
 
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
-	t_list	*ptr;
 
 	if (argc < 2)
-		return (write(1, "Error\n", 6));
+		return (0);
 	if (!check_arg(argc, argv))
 		return (write(1, "Error\n", 6));
-	if (argc == 2)
-		parse_str(&stack_a, argc, argv);
-	if (argc > 2)
-		parse_arg(&stack_a, argc, argv);
-	if (!stack_a || !stack_a->next) 
+	parse_str(&stack_a, argv);
+	if (!stack_a)
 		return (write(1, "Error\n", 6));
-	ptr = (stack_a);
-
-	printf("Before push_swap \n");
-	while (ptr)
+	if (!stack_a->next)
 	{
-		printf("%d ", ptr->content);
-		ptr = ptr->next;
+		lst_free(&stack_a);
+		return (0);
 	}
-	printf("\n");
 	push_swap(&stack_a);
-	ptr = (stack_a);
-	printf("Before push_swap \n");
-	while (ptr)
-	{
-		printf("%d ", ptr->content);
-		ptr = ptr->next;
-	}
-	printf("\n");
 	lst_free(&stack_a);
 	return (1);
 }
 
-static void	parse_str(t_list **stack_a, int argc, char **argv)
+static void	parse_str(t_list **stack_a, char **argv)
 {
 	int		i;
+	int		j;
 	int		content;
 	char	**array;
 	t_list	*new;
 
 	(*stack_a) = NULL;
-	array = ft_split(argv[argc - 1], ' ');
-	i = 0;
-	while (array[i])
+	j = 1;
+	while (argv[j])
 	{
-		content = ft_atoi(array[i]);
-		if ((content == -1 && array[i][0] != '-') ||
-			(content == 0 && array[i][0] != 0))
-			return (free_on_close(stack_a, array, 0));
-		if (!check_dupli(*stack_a, content))
-			return (free_on_close(stack_a, array, 0));
-		new = ft_lstnew(ft_atoi(array[i]));
-		if (!new)
-			return (free_on_close(stack_a, array, 0));
-		ft_lstadd_back(stack_a, new);
-		i++;
-	}
-	arr_free(array);
-	return ;
-}
-
-static void	parse_arg(t_list **stack_a, int argc, char **argv)
-{
-	int		i;
-	int		content;
-	t_list	*new;
-
-	(*stack_a) = NULL;
-	i = 1;
-	while (i < argc)
-	{
-		content = ft_atoi(argv[i]);
-		if ((content == -1 && argv[i][0] != '-') ||
-			(content == 0 && argv[i][0] != 0))
-			return (free_on_close(stack_a, NULL, 0));
-		if (!check_dupli(*stack_a, content))
-			return (free_on_close(stack_a, NULL, 0));
-		new = ft_lstnew(content);
-		if (!new)
-			return (free_on_close(stack_a, NULL, 0));
-		ft_lstadd_back(stack_a, new);
-		i++;
+		array = ft_split(argv[j], ' ');
+		i = 0;
+		while (array[i])
+		{
+			content = ft_atoi(array[i]);
+			if ((content == -1 && array[i][0] != '-') ||
+				(content == 0 && array[i][0] != '0'))
+				return (free_on_close(stack_a, array, 0));
+			if (!check_dupli(*stack_a, content))
+				return (free_on_close(stack_a, array, 0));
+			new = ft_lstnew(ft_atoi(array[i]));
+			if (!new)
+				return (free_on_close(stack_a, array, 0));
+			ft_lstadd_back(stack_a, new);
+			i++;
+		}
+		arr_free(array);
+		j++;
 	}
 	return ;
 }
@@ -114,9 +80,9 @@ static int	check_arg(int argc, char **argv)
 	int	j;
 
 	i = 1;
-	j = 0;
 	while (i < argc)
 	{
+		j = 0;
 		while (argv[i][j])
 		{
 			if ((argv[i][j] == '-' || argv[i][j] == '+')
@@ -126,13 +92,15 @@ static int	check_arg(int argc, char **argv)
 			if ((argv[i][j] == '-' || argv[i][j] == '+')
 				&& (j > 0 && !ft_isspace(argv[i][j - 1])))
 				return (0);
-			if (ft_isdigit(argv[i][j]) || ft_isspace(argv[i][j]))
-				return (1);
+			if (!ft_isdigit(argv[i][j])
+				&& !ft_isspace(argv[i][j])
+				&& !(argv[i][j] == '-' || argv[i][j] == '+'))
+				return (0);
 			j++;
 		}
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 static int	check_dupli(t_list *stack_a, int content)

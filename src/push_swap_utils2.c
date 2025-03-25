@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:40:54 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/24 16:00:08 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:09:13 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	calc_cost(t_ctrl *ctrl, int a, int b)
 	c = INT_MAX;
 	if ((a <= 0 && b <= 0) || (a >= 0 && b >= 0))
 	{
-		if (ft_abs(a) > ft_abs(b))
+		if (ft_abs(a) >= ft_abs(b))
 			c = ft_abs(a);
 		if (ft_abs(a) < ft_abs(b))
 			c = ft_abs(b);
