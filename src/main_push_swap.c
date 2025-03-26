@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:21:21 by stempels          #+#    #+#             */
-/*   Updated: 2025/03/25 17:37:34 by stempels         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:17:25 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "push_swap.h"
 
 static void	parse_str(t_list **stack_a, char **argv);
-static void	check_str(char **array, t_list **stack_a);
+static int	check_str(char **array, t_list **stack_a);
 static int	check_arg(int argc, char **argv);
 static int	check_dupli(t_list *stack_a, int content);
 
@@ -49,14 +49,15 @@ static void	parse_str(t_list **stack_a, char **argv)
 	while (argv[j])
 	{
 		array = ft_split(argv[j], ' ');
-		check_str(array, stack_a);
+		if (!check_str(array, stack_a))
+			return ;
 		arr_free(array);
 		j++;
 	}
 	return ;
 }
 
-static void	check_str(char **array, t_list **stack_a)
+static int	check_str(char **array, t_list **stack_a)
 {
 	int		i;
 	int		content;
@@ -66,17 +67,23 @@ static void	check_str(char **array, t_list **stack_a)
 	while (array[i])
 	{
 		content = ft_atoi(array[i]);
-		if ((content == -1 && array[i][0] != '-') ||
-			(content == 0 && array[i][0] != '0'))
-			return (free_on_close(stack_a, array, 0));
-		if (!check_dupli(*stack_a, content))
-			return (free_on_close(stack_a, array, 0));
+		if ((content == -1 && array[i][0] != '-')
+			|| (content == 0 && array[i][0] != '0')
+			|| (!check_dupli(*stack_a, content)))
+		{
+			free_on_close(stack_a, array, 0);
+			return (0);
+		}
 		new = ft_lstnew(ft_atoi(array[i]));
 		if (!new)
-			return (free_on_close(stack_a, array, 0));
+		{
+			free_on_close(stack_a, array, 0);
+			return (0);
+		}
 		ft_lstadd_back(stack_a, new);
 		i++;
 	}
+	return (1);
 }
 
 static int	check_arg(int argc, char **argv)
